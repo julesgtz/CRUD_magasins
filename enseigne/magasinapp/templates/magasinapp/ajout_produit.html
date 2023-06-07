@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Title</title>
+</head>
+<body>
+    {% if id != '' %}
+        <form method="post" action="/magasin/update_traitement_magasin/{{id}}/">
+   {% else %}
+        <form method="post" action="/magasin/traitement_magasin/">
+    {% endif %}
+    {% csrf_token %}
+    {{ form.as_ul }}
+    <input type="submit" value="envoyer les données"\>
+</form>
+</body>
+</html>

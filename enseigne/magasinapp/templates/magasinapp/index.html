@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>index</title>
+</head>
+<body>
+<a href="ajout_magasin/">ajouter un magasin</a>
+<ol>
+    {% for l in liste %}
+        <li> {{l}} <a href="/magasin/affiche_magasin/{{l.id}}/">affiche</a> <a href="/magasin/update_magasin/{{l.id}}/">update</a> <a href="/magasin/delete_magasin/{{l.id}}/">delete</a></li>
+    {% endfor %}
+</ol>
+</form>
+</body>
+</html>
