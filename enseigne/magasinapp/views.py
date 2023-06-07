@@ -19,7 +19,8 @@ def traitement_magasin(request):
 
 def affiche_magasin(request, id):
     mag = models.Magasin.objects.get(pk=id)
-    return render(request,"magasinapp/affiche_magasin.html",{"magasin": mag, "id": id})
+    produits = models.Produit.objects.filter(magasin=mag)
+    return render(request,"magasinapp/affiche_magasin.html",{"magasin": mag, "id": id, 'produits': produits})
 
 def update_traitement_magasin(request, id):
     mform = MagasinForm(request.POST)
@@ -51,44 +52,47 @@ def delete_magasin(request, id):
 
 
 def ajout_produit(request, id):
-    form = ProduitForm()
+    magasin = models.Magasin.objects.get(pk=id)
+    form = ProduitForm(initial={'magasin': magasin})
     return render(request, "magasinapp/ajout_produit.html", {"form": form, "id": id})
 
 
 def traitement_produit(request):
     pform = ProduitForm(request.POST)
     if pform.is_valid():
-        produit = pform.save()
+        mag = pform.save(commit=False)
+        mag.magasin_id = id
+        mag.save()
         return HttpResponseRedirect("/magasin/")
     else:
-        return render(request, "magasinapp/ajout_magasin.html", {"form": mform})
+        return render(request, "magasinapp/ajout_magasin.html", {"form": pform})
 
 
 def affiche_produit(request, id):
     produit = models.Produit.objects.get(pk=id)
-    return render(request, "magasinapp/affiche_magasin.html", {"magasin": produit})
+    return render(request, "magasinapp/affiche_produit.html", {"produit": produit})
 
 
 def update_traitement_produit(request, id):
     pform = ProduitForm(request.POST)
     if pform.is_valid():
-        produit = pform.save(commit=False)
-        produit.id = id
-        produit.save()
+        mag = pform.save(commit=False)
+        mag.magasin_id = id
+        mag.save()
         return HttpResponseRedirect("/magasin/")
     else:
-        return render(request, "magasinapp/update_magasin.html", {"form": produit, "id": id})
+        return render(request, "magasinapp/update_produit.html", {"form": pform, "id": id})
 
 
 def update_produit(request, id):
     produit = models.Produit.objects.get(pk=id)
     form = ProduitForm(produit.dico())
-    return render(request, "magasinapp/ajout_magasin.html", {"form": form, "id": id})
+    return render(request, "magasinapp/ajout_produit.html", {"form": form, "id": id})
 
 
 
 def delete_produit(request, id):
     produit = models.Produit.objects.get(pk=id)
     produit.delete()
-    return HttpResponseRedirect("/magasin/")
+    return HttpResponseRedirect(f"/magasin/affiche_magasin/")
 

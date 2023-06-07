@@ -5,6 +5,8 @@
 <title>Title</title>
 </head>
 <body>
+{% extends "main.html" %}
+{% block content %}
     {% if id != '' %}
         <form method="post" action="/magasin/update_traitement_magasin/{{id}}/">
    {% else %}
@@ -14,5 +16,6 @@
     {{ form.as_ul }}
     <input type="submit" value="envoyer les données"\>
 </form>
+            {% endblock %}
 </body>
 </html>

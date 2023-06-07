@@ -5,14 +5,17 @@
 <title>Title</title>
 </head>
 <body>
+{% extends "main.html" %}
+{% block content %}
     {% if id != '' %}
-        <form method="post" action="/magasin/update_traitement_magasin/{{id}}/">
+        <form method="post" action="/magasin/update_traitement_produit/{{id}}/">
    {% else %}
-        <form method="post" action="/magasin/traitement_magasin/">
+        <form method="post" action="/magasin/traitement_produit/">
     {% endif %}
     {% csrf_token %}
     {{ form.as_ul }}
     <input type="submit" value="envoyer les données"\>
 </form>
+                        {% endblock %}
 </body>
 </html>
